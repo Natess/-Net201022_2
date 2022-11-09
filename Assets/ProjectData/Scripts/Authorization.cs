@@ -2,8 +2,11 @@ using Photon.Pun;
 using Photon.Realtime;
 using PlayFab;
 using PlayFab.ClientModels;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,12 +14,27 @@ public class Authorization : MonoBehaviourPunCallbacks
 {
     [SerializeField] private string _playFabTitle;
 
+    [SerializeField] private PanelsManager panelManager;
+
     [SerializeField] private Text _playFabConnectionLabel;
     [SerializeField] private Button _playFabLoginButton;
+    [SerializeField] private Text _playFabRemberUserLabel;
+    [SerializeField] private Button _playFabFogetUserDataButton;
+    [SerializeField] private Button _checkInButton;
+    [SerializeField] private Button _logInButton;
+
 
     [SerializeField] private Text _photonConnectionLabel;
     [SerializeField] private Button _photonConnectButton;
     [SerializeField] private Text _photonConnectButtonText;
+
+    private const string AUTHENTICATION_KEY = "AUTHENTICATION_KEY";
+
+    private struct Data
+    {
+        public bool NeedCreation;
+        public string Id;
+    }
 
     void Start()
     {
@@ -24,40 +42,77 @@ public class Authorization : MonoBehaviourPunCallbacks
 
         if (string.IsNullOrEmpty(PlayFabSettings.staticSettings.TitleId))
             PlayFabSettings.staticSettings.TitleId = _playFabTitle;
+        
+        _photonConnectButton.onClick.AddListener(() => onPhotonConnectButtonClick());
+
+        _playFabLoginButton.onClick.AddListener(onPlayFabLoginButtonClick);
+        _checkInButton.onClick.AddListener(panelManager.onCheckInClick);
+        _logInButton.onClick.AddListener(panelManager.onLogInClick);
+        _playFabFogetUserDataButton.onClick.AddListener(FogetUserData);
+    }
+
+    private void onPlayFabLoginButtonClick()
+    {
+        var needCreation = !PlayerPrefs.HasKey(AUTHENTICATION_KEY);
+        var id = PlayerPrefs.GetString(AUTHENTICATION_KEY, Guid.NewGuid().ToString());
+        if (!needCreation)
+        {
+            _playFabRemberUserLabel.text = "Your user was found";
+        }
 
         var request = new LoginWithCustomIDRequest
         {
-            CustomId = "TestUser",
+            CustomId = id,
             CreateAccount = true
         };
 
-        _playFabLoginButton.onClick.AddListener(() => PlayFabLogIn(request));
-        _photonConnectButton.onClick.AddListener(() => onPhotonConnectButtonClick());
-
+        PlayFabLogIn(request, new Data { Id = id, NeedCreation = needCreation });
     }
 
-    private void PlayFabLogIn(LoginWithCustomIDRequest request)
+
+
+    private void PlayFabLogIn(LoginWithCustomIDRequest request, Data data)
     {
+        var slider = panelManager.RunSlider();
         PlayFabClientAPI.LoginWithCustomID(request,
            result =>
            {
-               _playFabConnectionLabel.text = "PlayFab connection success";
-               _playFabConnectionLabel.color = Color.green;
-               _playFabLoginButton.enabled = false;
-               _photonConnectButton.enabled = true;
+               PlayerPrefs.SetString(AUTHENTICATION_KEY, data.Id);
+               //_playFabConnectionLabel.text = "PlayFab connection success";
+               //_playFabConnectionLabel.color = Color.green;
+               //_playFabLoginButton.enabled = false;
+               //_photonConnectButton.enabled = true;
 
                Debug.Log(result.PlayFabId);
+               Debug.Log(data.Id);
                PhotonNetwork.AuthValues = new AuthenticationValues(result.PlayFabId);
                PhotonNetwork.NickName = result.PlayFabId;
-              // Connect();
+               // Connect();
+               panelManager.StopSlider(slider);
+
+               panelManager.GoToUserPanel(gameObject);
            },
            error =>
            {
                _playFabConnectionLabel.text = "PlayFab connection error";
                _playFabConnectionLabel.color = Color.red;
                Debug.LogError(error);
-           });
+               panelManager.StopSlider(slider);
+           },
+           data);
     }
+
+    private void FogetUserData()
+    {
+        var slider = panelManager.RunSlider();
+        PlayFabClientAPI.ForgetAllCredentials();
+        PlayerPrefs.DeleteKey(AUTHENTICATION_KEY);
+
+        _playFabRemberUserLabel.text = "";
+        panelManager.StopSlider(slider);
+    }
+
+    #region Photon
 
     private void onPhotonConnectButtonClick()
     {
@@ -83,7 +138,7 @@ public class Authorization : MonoBehaviourPunCallbacks
 
         if (PhotonNetwork.IsConnected)
         {
-            PhotonNetwork.JoinRandomOrCreateRoom(roomName: $"Room N{Random.Range(0, 9999)}");
+            PhotonNetwork.JoinRandomOrCreateRoom(roomName: $"Room N{UnityEngine.Random.Range(0, 9999)}");
         }
         else
         {
@@ -97,7 +152,7 @@ public class Authorization : MonoBehaviourPunCallbacks
         base.OnConnectedToMaster();
         Debug.Log("OnConnectedToMaster");
         if (!PhotonNetwork.InRoom)
-            PhotonNetwork.JoinRandomOrCreateRoom(roomName: $"Room N{Random.Range(0, 9999)}");
+            PhotonNetwork.JoinRandomOrCreateRoom(roomName: $"Room N{UnityEngine.Random.Range(0, 9999)}");
     }
 
     public override void OnCreatedRoom()
@@ -133,4 +188,7 @@ public class Authorization : MonoBehaviourPunCallbacks
         base.OnLeftRoom();
         Debug.Log("OnLeftRoom");
     }
+
+    #endregion
+
 }
