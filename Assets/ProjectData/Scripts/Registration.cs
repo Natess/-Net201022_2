@@ -60,7 +60,7 @@ public class Registration : MonoBehaviour
             _userPasswordInput.text = "";
             _userPassword = "";
             panelManager.StopSlider(slider);
-            panelManager.GoToUserPanel(gameObject);
+            panelManager.GoToStorePanel(gameObject);
         },
         error =>
         {

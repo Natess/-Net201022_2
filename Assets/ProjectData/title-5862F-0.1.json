@@ -1,0 +1,199 @@
+{
+  "CatalogVersion": "0.1",
+  "Catalog": [
+    {
+      "ItemId": "ir_hammer",
+      "ItemClass": "hammer",
+      "CatalogVersion": "0.1",
+      "DisplayName": "Iron hammer",
+      "Description": "Good iron hammer",
+      "VirtualCurrencyPrices": {
+        "GL": 5,
+        "RM": 50
+      },
+      "RealCurrencyPrices": {},
+      "Tags": [],
+      "CustomData": null,
+      "Consumable": {
+        "UsageCount": null,
+        "UsagePeriod": null,
+        "UsagePeriodGroup": null
+      },
+      "Container": null,
+      "Bundle": null,
+      "CanBecomeCharacter": false,
+      "IsStackable": false,
+      "IsTradable": true,
+      "ItemImageUrl": null,
+      "IsLimitedEdition": false,
+      "InitialLimitedEditionCount": 0,
+      "ActivatedMembership": null
+    },
+    {
+      "ItemId": "nails",
+      "ItemClass": "nails",
+      "CatalogVersion": "0.1",
+      "DisplayName": "Nails",
+      "Description": "10 nails",
+      "VirtualCurrencyPrices": {
+        "GL": 1,
+        "RM": 10
+      },
+      "RealCurrencyPrices": {},
+      "Tags": [],
+      "CustomData": "{\"count\":\"10\"}",
+      "Consumable": {
+        "UsageCount": null,
+        "UsagePeriod": null,
+        "UsagePeriodGroup": null
+      },
+      "Container": null,
+      "Bundle": null,
+      "CanBecomeCharacter": false,
+      "IsStackable": true,
+      "IsTradable": false,
+      "ItemImageUrl": null,
+      "IsLimitedEdition": false,
+      "InitialLimitedEditionCount": 0,
+      "ActivatedMembership": null
+    },
+    {
+      "ItemId": "mi_hammer",
+      "ItemClass": "hammer",
+      "CatalogVersion": "0.1",
+      "DisplayName": "Mithril hammer",
+      "Description": "Epic mithril hammer",
+      "VirtualCurrencyPrices": {
+        "GL": 50,
+        "RM": 500
+      },
+      "RealCurrencyPrices": {},
+      "Tags": [],
+      "CustomData": null,
+      "Consumable": {
+        "UsageCount": null,
+        "UsagePeriod": null,
+        "UsagePeriodGroup": null
+      },
+      "Container": null,
+      "Bundle": null,
+      "CanBecomeCharacter": false,
+      "IsStackable": false,
+      "IsTradable": false,
+      "ItemImageUrl": null,
+      "IsLimitedEdition": false,
+      "InitialLimitedEditionCount": 0,
+      "ActivatedMembership": null
+    },
+    {
+      "ItemId": "s_bundle",
+      "ItemClass": null,
+      "CatalogVersion": "0.1",
+      "DisplayName": "Simple bundle",
+      "Description": "Simple bundle",
+      "VirtualCurrencyPrices": {
+        "GL": 8,
+        "RM": 70
+      },
+      "RealCurrencyPrices": {},
+      "Tags": [],
+      "CustomData": null,
+      "Consumable": {
+        "UsageCount": 1,
+        "UsagePeriod": null,
+        "UsagePeriodGroup": null
+      },
+      "Container": null,
+      "Bundle": {
+        "BundledItems": [
+          "ir_hammer",
+          "nails",
+          "nails",
+          "nails",
+          "nails",
+          "nails"
+        ],
+        "BundledResultTables": [],
+        "BundledVirtualCurrencies": null
+      },
+      "CanBecomeCharacter": false,
+      "IsStackable": false,
+      "IsTradable": false,
+      "ItemImageUrl": null,
+      "IsLimitedEdition": false,
+      "InitialLimitedEditionCount": 0,
+      "ActivatedMembership": null
+    },
+    {
+      "ItemId": "s_nails_container",
+      "ItemClass": null,
+      "CatalogVersion": "0.1",
+      "DisplayName": "Simple container of nails",
+      "Description": "Simple container of nails",
+      "VirtualCurrencyPrices": {
+        "GL": 8,
+        "RM": 75
+      },
+      "RealCurrencyPrices": {},
+      "Tags": [],
+      "CustomData": null,
+      "Consumable": {
+        "UsageCount": 1,
+        "UsagePeriod": null,
+        "UsagePeriodGroup": null
+      },
+      "Container": {
+        "KeyItemId": null,
+        "ItemContents": [
+          "nails",
+          "nails",
+          "nails",
+          "nails",
+          "nails",
+          "nails",
+          "nails",
+          "nails",
+          "nails",
+          "nails"
+        ],
+        "ResultTableContents": [],
+        "VirtualCurrencyContents": null
+      },
+      "Bundle": null,
+      "CanBecomeCharacter": false,
+      "IsStackable": false,
+      "IsTradable": false,
+      "ItemImageUrl": null,
+      "IsLimitedEdition": false,
+      "InitialLimitedEditionCount": 0,
+      "ActivatedMembership": null
+    }
+  ],
+  "DropTables": [
+    {
+      "TableId": "first_drop_table",
+      "Nodes": [
+        {
+          "ResultItemType": "ItemId",
+          "ResultItem": "ir_hammer",
+          "Weight": 35
+        },
+        {
+          "ResultItemType": "ItemId",
+          "ResultItem": "mi_hammer",
+          "Weight": 5
+        },
+        {
+          "ResultItemType": "ItemId",
+          "ResultItem": "nails",
+          "Weight": 50
+        },
+        {
+          "ResultItemType": "ItemId",
+          "ResultItem": "s_nails_container",
+          "Weight": 10
+        }
+      ]
+    }
+  ]
+}

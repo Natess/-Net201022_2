@@ -10,6 +10,7 @@ public class PanelsManager : MonoBehaviour
     [SerializeField] private GameObject CheckInPanel;
     [SerializeField] private GameObject LogInPanel;
     [SerializeField] private GameObject UserPanel;
+    [SerializeField] private GameObject StorePanel;
 
     [SerializeField] private GameObject SliderPanel;
     [SerializeField] private Slider Slider;
@@ -25,6 +26,13 @@ public class PanelsManager : MonoBehaviour
         UserPanel.SetActive(true);
         currentPanel.SetActive(false);
         UserPanel.GetComponent<UserInfo>().onSetActive();
+    }
+
+    public void GoToStorePanel(GameObject currentPanel)
+    {
+        StorePanel.SetActive(true);
+        currentPanel.SetActive(false);
+        StorePanel.GetComponent<StoreManager>().Init();
     }
 
     public void onLogInClick()

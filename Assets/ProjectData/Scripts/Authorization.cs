@@ -90,7 +90,7 @@ public class Authorization : MonoBehaviourPunCallbacks
                // Connect();
                panelManager.StopSlider(slider);
 
-               panelManager.GoToUserPanel(gameObject);
+               panelManager.GoToStorePanel(gameObject);
            },
            error =>
            {

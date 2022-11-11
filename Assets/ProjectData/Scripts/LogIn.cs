@@ -51,7 +51,7 @@ public class LogIn : MonoBehaviour
             _errorText.gameObject.SetActive(false);
             Debug.Log(result.PlayFabId);
             panelManager.StopSlider(slider);
-            panelManager.GoToUserPanel(gameObject);
+            panelManager.GoToStorePanel(gameObject);
         },
         error =>
         {
