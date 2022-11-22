@@ -29,6 +29,7 @@ public class Authorization : MonoBehaviourPunCallbacks
     [SerializeField] private Text _photonConnectButtonText;
 
     private const string AUTHENTICATION_KEY = "AUTHENTICATION_KEY";
+    private const string AUTHENTICATION_NAME = "AUTHENTICATION_NAME";
 
     private struct Data
     {
@@ -85,12 +86,10 @@ public class Authorization : MonoBehaviourPunCallbacks
 
                Debug.Log(result.PlayFabId);
                Debug.Log(data.Id);
-               PhotonNetwork.AuthValues = new AuthenticationValues(result.PlayFabId);
-               PhotonNetwork.NickName = result.PlayFabId;
-               // Connect();
+
                panelManager.StopSlider(slider);
 
-               panelManager.GoToStorePanel(gameObject);
+               panelManager.GoToUnauthorizationLoginPanel(gameObject, result.PlayFabId);
            },
            error =>
            {

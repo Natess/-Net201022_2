@@ -11,6 +11,13 @@ public class PanelsManager : MonoBehaviour
     [SerializeField] private GameObject LogInPanel;
     [SerializeField] private GameObject UserPanel;
     [SerializeField] private GameObject StorePanel;
+    [SerializeField] private GameObject UnauthorizationLoginPanel;
+    [SerializeField] private GameObject SelectionPanel;
+    [SerializeField] private GameObject JoinRandomRoomPanel;
+    [SerializeField] private GameObject RoomListPanel;
+    [SerializeField] private GameObject CreateRoomPanel;
+    [SerializeField] public GameObject InsideRoomPanel;
+    [SerializeField] public GameObject FindRoomPanel;
 
     [SerializeField] private GameObject SliderPanel;
     [SerializeField] private Slider Slider;
@@ -33,6 +40,18 @@ public class PanelsManager : MonoBehaviour
         StorePanel.SetActive(true);
         currentPanel.SetActive(false);
         StorePanel.GetComponent<StoreManager>().Init();
+    }
+    public void GoToUnauthorizationLoginPanel(GameObject currentPanel, string playerId)
+    {
+        UnauthorizationLoginPanel.SetActive(true);
+        currentPanel.SetActive(false);
+        UnauthorizationLoginPanel.GetComponent<UnauthorizationLoginPanel>().Init(playerId);
+    }
+
+    internal void GoToSelectionPanel(GameObject currentPanel)
+    {
+        SelectionPanel.SetActive(true);
+        currentPanel.SetActive(false);
     }
 
     public void onLogInClick()
@@ -68,5 +87,19 @@ public class PanelsManager : MonoBehaviour
     {
         SliderPanel.SetActive(false);
         StopCoroutine(coroutine);
+    }
+
+    public void SetActivePanel(string activePanel)
+    {
+        SelectionPanel.SetActive(activePanel.Equals(SelectionPanel.name));
+        CreateRoomPanel.SetActive(activePanel.Equals(CreateRoomPanel.name));
+        JoinRandomRoomPanel.SetActive(activePanel.Equals(JoinRandomRoomPanel.name));
+        RoomListPanel.SetActive(activePanel.Equals(RoomListPanel.name));
+        InsideRoomPanel.SetActive(activePanel.Equals(InsideRoomPanel.name));
+        FindRoomPanel.SetActive(activePanel.Equals(FindRoomPanel.name));
+        if (activePanel.Equals(InsideRoomPanel.name))
+        {
+            InsideRoomPanel.GetComponent<InsideRoomPanel>().Init();
+        }
     }
 }
