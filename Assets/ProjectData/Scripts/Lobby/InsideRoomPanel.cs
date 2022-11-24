@@ -110,7 +110,7 @@ public class InsideRoomPanel : MonoBehaviourPunCallbacks
         PhotonNetwork.CurrentRoom.IsOpen = false;
         PhotonNetwork.CurrentRoom.IsVisible = false;
 
-        PhotonNetwork.LoadLevel("DemoAsteroids-GameScene");
+        PhotonNetwork.LoadLevel("ExampleScene");
     }
 
     internal void Init()

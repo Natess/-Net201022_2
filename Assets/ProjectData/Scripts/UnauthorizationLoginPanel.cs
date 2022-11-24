@@ -51,7 +51,7 @@ public class UnauthorizationLoginPanel : MonoBehaviourPunCallbacks
             PhotonNetwork.ConnectUsingSettings();
             PhotonNetwork.GameVersion = PhotonNetwork.AppVersion;
         }
-        panelManager.GoToSelectionPanel(gameObject);
+        //panelManager.GoToSelectionPanel(gameObject);
     }
 
     public override void OnConnectedToMaster()

@@ -1,3 +1,5 @@
+using Photon.Pun;
+using Photon.Realtime;
 using PlayFab;
 using System.Collections;
 using System.Collections.Generic;
@@ -5,7 +7,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Registration : MonoBehaviour
+public class Registration : MonoBehaviourPunCallbacks
 {
     [SerializeField] private InputField _userNameInput;
     [SerializeField] private InputField _userEmailInput;
@@ -59,8 +61,14 @@ public class Registration : MonoBehaviour
             Debug.Log(result.Username);
             _userPasswordInput.text = "";
             _userPassword = "";
+            PlayfabUserData.GetUserData(result.PlayFabId);
             panelManager.StopSlider(slider);
-            panelManager.GoToStorePanel(gameObject);
+
+            PhotonNetwork.AuthValues = new AuthenticationValues(result.PlayFabId);
+            PhotonNetwork.NickName = _userName;
+            PhotonNetwork.LocalPlayer.NickName = _userName;
+            Connect();
+            //panelManager.GoToStorePanel(gameObject);
         },
         error =>
         {
@@ -72,5 +80,22 @@ public class Registration : MonoBehaviour
         }); ;
         ;
         ;
+    }
+
+    private void Connect()
+    {
+        PhotonNetwork.AutomaticallySyncScene = true;
+
+        if (!PhotonNetwork.IsConnected)
+        {
+            PhotonNetwork.ConnectUsingSettings();
+            PhotonNetwork.GameVersion = PhotonNetwork.AppVersion;
+        }
+        //panelManager.GoToSelectionPanel(gameObject);
+    }
+
+    public override void OnConnectedToMaster()
+    {
+        panelManager.GoToSelectionPanel(gameObject);
     }
 }

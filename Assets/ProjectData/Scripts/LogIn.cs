@@ -8,7 +8,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LogIn : MonoBehaviour
+public class LogIn : MonoBehaviourPunCallbacks
 {
     [SerializeField] private InputField _userNameInput;
     [SerializeField] private InputField _userPasswordInput;
@@ -48,19 +48,50 @@ public class LogIn : MonoBehaviour
         },
         result =>
         {
-            _errorText.gameObject.SetActive(false);
-            Debug.Log(result.PlayFabId);
-            panelManager.StopSlider(slider);
-            panelManager.GoToStorePanel(gameObject);
+            OnLoginSuccess(result, slider);
+            //panelManager.GoToStorePanel(gameObject);
         },
         error =>
         {
             _errorText.gameObject.SetActive(true);
             _errorText.text = $"{error.ErrorMessage}\n";
-            if(error.ErrorDetails is not null)
+            if (error.ErrorDetails is not null)
                 _errorText.text += error.ErrorDetails.First().Value.First();
             panelManager.StopSlider(slider);
         });
     }
+
+    private void Connect()
+    {
+        PhotonNetwork.AutomaticallySyncScene = true;
+
+        if (!PhotonNetwork.IsConnected)
+        {
+            PhotonNetwork.ConnectUsingSettings();
+            PhotonNetwork.GameVersion = PhotonNetwork.AppVersion;
+        }
+        //panelManager.GoToSelectionPanel(gameObject);
+    }
+
+    public override void OnConnectedToMaster()
+    {
+        panelManager.GoToSelectionPanel(gameObject);
+    }
+
+    private void OnLoginSuccess(LoginResult result, Coroutine slider)
+    {
+        _errorText.gameObject.SetActive(false);
+        Debug.Log(result.PlayFabId);
+        Debug.Log("Congratulations, you made your first successful API call!");
+        PlayfabUserData.GetUserData(result.PlayFabId);
+        panelManager.StopSlider(slider);
+
+        PhotonNetwork.AuthValues = new AuthenticationValues(result.PlayFabId);
+        PhotonNetwork.NickName = _userName;
+        PhotonNetwork.LocalPlayer.NickName = _userName;
+        Connect();
+    }
+
+
 }
 

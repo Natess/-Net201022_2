@@ -86,6 +86,7 @@ public class Authorization : MonoBehaviourPunCallbacks
 
                Debug.Log(result.PlayFabId);
                Debug.Log(data.Id);
+               PlayfabUserData.GetUserData(result.PlayFabId);
 
                panelManager.StopSlider(slider);
 
