@@ -55,7 +55,7 @@ public class LogIn : MonoBehaviourPunCallbacks
         {
             _errorText.gameObject.SetActive(true);
             _errorText.text = $"{error.ErrorMessage}\n";
-            if (error.ErrorDetails is not null)
+            if (error.ErrorDetails != null)
                 _errorText.text += error.ErrorDetails.First().Value.First();
             panelManager.StopSlider(slider);
         });
