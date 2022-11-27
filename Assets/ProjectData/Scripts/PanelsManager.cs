@@ -18,6 +18,7 @@ public class PanelsManager : MonoBehaviour
     [SerializeField] private GameObject CreateRoomPanel;
     [SerializeField] public GameObject InsideRoomPanel;
     [SerializeField] public GameObject FindRoomPanel;
+    [SerializeField] public GameObject CharacterSelectPanel;
 
     [SerializeField] private GameObject SliderPanel;
     [SerializeField] private Slider Slider;
@@ -53,6 +54,13 @@ public class PanelsManager : MonoBehaviour
         SelectionPanel.SetActive(true);
         currentPanel.SetActive(false);
     }
+
+    internal void GoToCharacterSelecPanel(GameObject currentPanel)
+    {
+        CharacterSelectPanel.SetActive(true);
+        currentPanel.SetActive(false);
+    }
+
 
     public void onLogInClick()
     {
@@ -97,6 +105,7 @@ public class PanelsManager : MonoBehaviour
         RoomListPanel.SetActive(activePanel.Equals(RoomListPanel.name));
         InsideRoomPanel.SetActive(activePanel.Equals(InsideRoomPanel.name));
         FindRoomPanel.SetActive(activePanel.Equals(FindRoomPanel.name));
+        CharacterSelectPanel.SetActive(activePanel.Equals(CharacterSelectPanel.name));
         if (activePanel.Equals(InsideRoomPanel.name))
         {
             InsideRoomPanel.GetComponent<InsideRoomPanel>().Init();
