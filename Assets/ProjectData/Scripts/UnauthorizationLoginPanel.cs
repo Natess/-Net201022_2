@@ -56,7 +56,7 @@ public class UnauthorizationLoginPanel : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()
     {
-        panelManager.GoToSelectionPanel(gameObject);
+        panelManager.GoToCharacterSelecPanel(gameObject);
     }
 
 }

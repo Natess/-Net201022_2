@@ -75,7 +75,7 @@ public class LogIn : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()
     {
-        panelManager.GoToSelectionPanel(gameObject);
+        panelManager.GoToCharacterSelecPanel(gameObject);
     }
 
     private void OnLoginSuccess(LoginResult result, Coroutine slider)
